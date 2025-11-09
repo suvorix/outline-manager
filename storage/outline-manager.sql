@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Ноя 09 2025 г., 20:34
+-- Время создания: Ноя 09 2025 г., 21:03
 -- Версия сервера: 10.3.22-MariaDB
 -- Версия PHP: 7.4.5
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- База данных: `outline-manager`
 --
-CREATE DATABASE IF NOT EXISTS `outline-manager` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `outline-manager`;
 
 -- --------------------------------------------------------
 

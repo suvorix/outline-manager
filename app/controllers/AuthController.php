@@ -22,7 +22,10 @@ class AuthController
     
     public function checkAuth()
     {
-        return $_SESSION['auth'] === true && $_SESSION['api_key'] === $this->getApiKey();
+        if(isset($_SESSION['auth']) && isset($_SESSION['api_key'])) {
+            return $_SESSION['auth'] === true && $_SESSION['api_key'] === $this->getApiKey();
+        }
+        return false;
     }
 
     public function login()

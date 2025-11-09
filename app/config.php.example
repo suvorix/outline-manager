@@ -1,0 +1,11 @@
+<?php
+define('BASE_PATH', dirname(__DIR__));
+
+define('APP_PASSWORD', 'admin');            // Поменять пароль на проде
+define('APP_PASSWORD_SALT', 'Ad31jDw2');    // Нужен для генерации API ключа. Можно менять на любой набор символов (количество тоже любое).
+
+// Настройки базы данных
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'outline-manager');
+define('DB_USER', 'root');
+define('DB_PASS', 'root');
