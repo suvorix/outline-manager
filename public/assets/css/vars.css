@@ -1,0 +1,20 @@
+:root { 
+    --main-font-family: Tahoma, sans-serif;
+    --main-font-size: 16px;
+    --accent-color: #3A745E;
+
+    --main-text-color: #D0D1D1;
+    --dop-text-color: #9E9E9E;
+
+    --main-background-color: #171a1a;
+    --dop1-background-color: #2F3131;
+    --dop2-background-color: #D5D5D5;
+
+    --btn-background: var(--accent-color);
+    --btn-color: var(--main-text-color);
+    --btn-second-background: var(--main-text-color);
+    --btn-second-color: var(--main-background-color);
+    --link-color: #5bb193;
+    --error-color: #f44336;
+    --success-color: #4caf50;
+}  

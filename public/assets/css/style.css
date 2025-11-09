@@ -1,0 +1,174 @@
+body {
+    font-family: var(--main-font-family);
+    font-size: var(--main-font-size);
+    background: var(--main-background-color);
+    color: var(--main-text-color);
+    margin: 0;
+}
+
+hr {
+    background: var(--dop2-background-color);
+    border: none;
+    height: 1px;
+    border-radius: 2px;
+}
+
+a {
+    cursor: pointer;
+    color: var(--link-color);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+input,
+select,
+textarea,
+button, 
+a.button {
+    display: block;
+    width: 100%;
+    font-family: var(--main-font-family);
+    font-size: var(--main-font-size);
+    color: var(--main-text-color);
+    background: var(--dop1-background-color);
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    border-radius: 7px;
+    box-sizing: border-box;
+}
+input::placeholder,
+select::placeholder,
+textarea::placeholder {
+    font-family: var(--main-text-color);
+    font-size: var(--main-font-size);
+    color: var(--dop-text-color);
+}
+input[type="submit"], button, a.button {
+    cursor: pointer;
+    color: var(--btn-color);
+    background: var(--btn-background);
+    margin-top: 20px;
+}
+a.button {
+    text-align: center;
+}
+input[type="submit"].btn-second, 
+button.btn-second, 
+a.button.btn-second {
+    color: var(--btn-second-color);
+    background: var(--btn-second-background);
+}
+a.button:hover {
+    text-decoration: none;
+}
+.checkbox {
+    display: inline-block;
+    margin-bottom: -3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    background: var(--dop1-background-color);
+}
+.checkbox input[type="checkbox"] {
+    display: none;
+}
+.checkbox:has(> input[type="checkbox"]:checked) { 
+    background: var(--accent-color);
+}
+
+.content_position {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0px 20px;
+    box-sizing: border-box;
+}
+
+.header {
+    padding: 20px 0px;
+}
+.header .content_position {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+.header_logo {
+    color: var(--main-text-color);
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+.header_logo:hover {
+    text-decoration: none;
+}
+.header_logo img {
+    height: 40px;
+    margin-right: 10px;
+    transition: .1s fill;
+}
+
+.header_logout {
+    color: var(--main-text-color);
+    display: flex;
+    align-items: center;
+    transition: .1s color;
+    margin-left: 10px;
+}
+.header_logout:hover {
+    text-decoration: none;
+    color: var(--link-color);
+}
+.header_logout svg {
+    fill: var(--main-text-color);
+    width: 24px;
+    transition: .1s fill;
+}
+.header_logout:hover svg {
+    fill: var(--link-color);
+}
+
+.footer {
+    padding: 20px 0px;
+}
+.footer_github {
+    color: var(--main-text-color);
+    display: flex;
+    align-items: center;
+    transition: .1s color;
+}
+.footer_github:hover {
+    text-decoration: none;
+    color: var(--link-color);
+}
+.footer_github svg {
+    fill: var(--main-text-color);
+    width: 24px;
+    margin-right: 10px;
+    transition: .1s fill;
+}
+.footer_github:hover svg {
+    fill: var(--link-color);
+}
+
+.main {
+    padding: 20px 0px;
+}
+
+.main .page-title_group .page-title {
+    margin: 0;
+}
+
+.main .page-title_group .page-description {
+    margin: 0;
+    margin-top: 10px;
+}
+
+
+.main .page-title_group {
+    display: flex;
+    justify-content: space-between;
+}

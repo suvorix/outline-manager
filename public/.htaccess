@@ -1,0 +1,15 @@
+RewriteEngine On
+
+# Обработка API запросов
+RewriteCond %{REQUEST_URI} ^/api/ [NC]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/(.*)$ api.php?path=$1 [QSA,L]
+
+# Обработка статических файлов
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Все остальные запросы - в index.php
+RewriteRule ^(.*)$ index.php?path=$1 [QSA,L]
