@@ -6,7 +6,7 @@
 
 <form method="post" action="/add-server">
     <p>Войдите на свой сервер и выполните эту команду</p>
-    <code>sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/Jigsaw-Code/outline-server/master/src/server_manager/install_scripts/install_server.sh)"</code>
+    <pre><code>sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/Jigsaw-Code/outline-server/master/src/server_manager/install_scripts/install_server.sh)"</code></pre>
 
     <label>
         <p>Вставьте сюда результаты вашей установки:</p>

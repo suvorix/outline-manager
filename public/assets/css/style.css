@@ -13,6 +13,19 @@ hr {
     border-radius: 2px;
 }
 
+pre {
+    overflow: auto;
+    background: var(--dop1-background-color);
+    padding: 10px 15px;
+    border-radius: 7px;
+}
+
+code {
+    background: var(--dop1-background-color);
+    padding: 3px;
+    border-radius: 5px;
+}
+
 a {
     cursor: pointer;
     color: var(--link-color);
@@ -171,4 +184,32 @@ a.button:hover {
 .main .page-title_group {
     display: flex;
     justify-content: space-between;
+}
+
+.stat-count_group {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 20px;
+    margin-top: 20px;
+}
+.stat-count_group .stat-count_item {
+    background: var(--dop1-background-color);
+    color: var(--main-text-color);
+    padding: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .1s background;
+}
+.stat-count_group .stat-count_item:hover {
+    background: var(--accent-color);
+    text-decoration: none;
+}
+
+.stat-count_group .stat-count_item p {
+    margin: 0;
+}
+.stat-count_group .stat-count_item .stat-count_item-value {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 10px;
 }

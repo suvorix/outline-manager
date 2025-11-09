@@ -10,7 +10,7 @@
 
     <main>
         <div class="content_position">
-            <form method="get" action="/">
+            <form method="POST" action="/login">
                 <label>
                     <p>Пароль:</p>
                     <input type="password" name="password" placeholder="Введите пароль...">

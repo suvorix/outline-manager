@@ -7,7 +7,7 @@ spl_autoload_register(function ($class) {
     foreach(array('/Core/', '/Controllers/', '/Models/') as $item) {
         $class = str_replace($item, strtolower($item), $class);
     }
-    $file = __DIR__ . $class . '.php'; 
+    $file = __DIR__ . $class . '.php';
     if (file_exists($file)) {
         require_once $file;
     }
