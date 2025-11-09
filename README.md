@@ -3,7 +3,7 @@
     <h1 align="center">OUTLINE MANAGER</h1>
 </p>
 
-API и веб-интерфейс для управления Outline серверами. На <a href="https://outline.dolphron.com" target="_blank">демонстрационной странице</a> можете опробовать функционал. Пароль для входа <code>admin</code>.
+API и веб-интерфейс для управления Outline серверами. На <a href="https://outline.dolphron.com">демонстрационной странице</a> можете опробовать функционал. Пароль для входа <code>admin</code>.
 
 ## ⚠️ ВНИМАНИЕ
 
