@@ -7,3 +7,22 @@
         <a href="/add-server" class="button" style="margin: 0;">Добавить сервер</a>
     </div>
 </div>
+
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Сервер</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($APP['info']['servers'] as $server): ?>
+            <tr>
+                <td><?=$server['id']?></td>
+                <td><?=$server['name']?><?php if($server['ip'] != '') { echo("<br><code style=\"display: inline-block; margin-top: 5px;\">" . $server['ip'] . "</code>"); } ?></td>
+                <td></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

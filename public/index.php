@@ -14,5 +14,6 @@ $router->add('GET', '/logout', 'AuthController@logout');
 $router->add('GET', '/', 'PageController@dashboard');
 $router->add('GET', '/servers', 'PageController@servers');
 $router->add('GET', '/add-server', 'PageController@addServer');
+$router->add('POST', '/add-server', 'PageController@addServerForm');
 
 $router->dispatch($_SERVER['REQUEST_URI']);

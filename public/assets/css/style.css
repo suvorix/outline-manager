@@ -46,11 +46,12 @@ a.button {
     font-size: var(--main-font-size);
     color: var(--main-text-color);
     background: var(--dop1-background-color);
-    border: none;
+    border: 1px solid var(--dop1-background-color);
     outline: none;
-    padding: 10px 15px;
+    padding: 15px;
     border-radius: 7px;
     box-sizing: border-box;
+    transition: .1s all;
 }
 input::placeholder,
 select::placeholder,
@@ -59,24 +60,47 @@ textarea::placeholder {
     font-size: var(--main-font-size);
     color: var(--dop-text-color);
 }
+input:focus,
+select:focus,
+textarea:focus {
+    box-shadow: 0px 0px 10px var(--dop1-background-color);
+    border: 1px solid var(--dop2-background-color);
+}
 input[type="submit"], button, a.button {
     cursor: pointer;
     color: var(--btn-color);
     background: var(--btn-background);
+    border: 1px solid var(--btn-background);
     margin-top: 20px;
+    padding: 15px 20px;
 }
 a.button {
     text-align: center;
 }
+a.button:hover {
+    text-decoration: none;
+}
+input[type="submit"]:focus,
+button:focus,
+a.button:focus {
+    box-shadow: 0px 0px 10px var(--btn-background);
+    border: 1px solid var(--btn-background);
+}
+
 input[type="submit"].btn-second, 
 button.btn-second, 
 a.button.btn-second {
     color: var(--btn-second-color);
     background: var(--btn-second-background);
+    border: 1px solid var(--btn-second-background);
 }
-a.button:hover {
-    text-decoration: none;
+input[type="submit"].btn-second:focus,
+button.btn-second:focus,
+a.button.btn-second:focus {
+    box-shadow: 0px 0px 10px var(--btn-second-background);
+    border: 1px solid var(--btn-second-background);
 }
+
 .checkbox {
     display: inline-block;
     margin-bottom: -3px;
@@ -90,6 +114,79 @@ a.button:hover {
 }
 .checkbox:has(> input[type="checkbox"]:checked) { 
     background: var(--accent-color);
+}
+
+.loadding_wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    background: var(--main-background-color);
+}
+.loadding_wrapper .spinner {
+    animation: rotator 1.4s linear infinite;
+}
+.loadding_wrapper .path {
+    stroke-dasharray: 187;
+    stroke-dashoffset: 0;
+    transform-origin: center;
+    stroke: var(--main-text-color);
+    animation: dash 1.4s ease-in-out infinite;
+}
+@keyframes rotator {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(270deg); }
+}
+@keyframes dash {
+    0% {
+        stroke-dashoffset: 187;
+    }
+    50% {
+        stroke-dashoffset: 46.75;
+        transform: rotate(135deg);
+    }
+    100% {
+        stroke-dashoffset: 187;
+        transform: rotate(450deg);
+    }
+}
+
+.notification_wrapper {
+    position: fixed;
+    z-index: 200;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 300px;
+    display: grid;
+    grid-gap: 10px;
+    padding: 10px;
+}
+
+.notification_wrapper .notification {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 5px;
+    padding: 10px;
+    backdrop-filter: blur(1px);
+    cursor: pointer;
+    color: #f1f1f1;
+}
+.notification_wrapper .notification.notification_success {
+    border-left: 5px solid #8bc34a;
+}
+.notification_wrapper .notification.notification_warning {
+    border-left: 5px solid #ff9800;
+}
+.notification_wrapper .notification.notification_error {
+    border-left: 5px solid #f44336;
+}
+.notification_wrapper .notification.notification_info {
+    border-left: 5px solid transparent;
 }
 
 .content_position {

@@ -58,6 +58,10 @@ class PageController
     {
         if( !$this->checkAuth() ) { $this->redirect('/login'); }
         $this->pageInfo['title'] = 'Сервера | ' . $this->pageInfo['title'];
+    
+        $serverModel = new Server();
+        $this->pageInfo['servers'] = $serverModel->getServers();
+        
         $this->view('servers');
     }
     
@@ -66,5 +70,27 @@ class PageController
         if( !$this->checkAuth() ) { $this->redirect('/login'); }
         $this->pageInfo['title'] = 'Сервера | ' . $this->pageInfo['title'];
         $this->view('add-server');
+    }
+    
+    public function addServerForm()
+    {
+        if( !$this->checkAuth() ) { $this->redirect('/login'); }
+        if( !isset($_POST['server-data']) ) { $this->redirect('/add-server?error='.urldecode('Данные не переданы')); }
+
+        $serverInfo = json_decode($_POST['server-data'], true);
+        if($serverInfo === null) { $this->redirect('/add-server?error='.urldecode('Данные должны быть в формате JSON')); }
+        if( !isset($serverInfo['apiUrl']) ) { $this->redirect('/add-server?error='.urldecode('Не передан "apiUrl"')); }
+        if( !isset($serverInfo['certSha256']) ) { $this->redirect('/add-server?error='.urldecode('Не передан "certSha256"')); }
+        
+        $serverName = 'Outline сервер';
+        if( isset($_POST['server-name']) ) {
+            if( trim($_POST['server-name']) != '' ) {
+                $serverName = trim($_POST['server-name']);
+            }
+        }
+
+        $serverModel = new Server();
+        $serverModel->add($serverName, $serverInfo['apiUrl'], $serverInfo['certSha256']);
+        $this->redirect('/servers');
     }
 }
