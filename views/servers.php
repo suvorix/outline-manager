@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<table>
+<table class="table-app" style="margin-top: 20px;">
     <thead>
         <tr>
             <th>#</th>
