@@ -43,5 +43,48 @@
     }
     $(document).ready(function(){
         loader(false);
+
+        $('.menu-action_btn').click(function(){
+            var hasClass = $(this).parent().hasClass('close');
+            $('.menu-action_wrapper').addClass('close');
+            if(hasClass) {
+                $(this).parent().removeClass('close');
+            }
+            else {
+                $(this).parent().addClass('close');
+            }
+
+            var el = $(this).parent().find('.menu-action_block');
+
+            el.css({ 'top': '40px' });
+            
+            var elHeight = el.outerHeight();
+            var blockBottom = el.offset().top + elHeight; // нижний край блока
+            var windowHeight = $(window).height(); // высота окна
+            var scrollTop = $(window).scrollTop(); // текущая прокрутка
+
+            // Вычисляем насколько блок выходит за экран (положительное значение = выход за экран)
+            var overflow = blockBottom - (scrollTop + windowHeight);
+
+            if(overflow > 0) {
+                el.css({ 'top': (5 - elHeight) + 'px' });
+            }
+        });
     });
 </script>
+
+<?php if(isset($_GET['error'])): ?>
+    <script>
+        $(document).ready(function(){
+            notification({type:'error', html: '<p><b>Ошибка</b></p><p><?=$_GET['error']?></p>'});
+        });
+    </script>
+<?php endif; ?>
+
+<?php if(isset($_GET['success'])): ?>
+    <script>
+        $(document).ready(function(){
+            notification({type:'success', html: '<p><b>Успех</b></p><p><?=$_GET['success']?></p>'});
+        });
+    </script>
+<?php endif; ?>

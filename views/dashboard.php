@@ -7,7 +7,7 @@
 </div>
 
 <div class="stat-count_group">
-    <a class="stat-count_item" href="/servers">
+    <a class="stat-count_item" href="/server/list">
         <p class="stat-count_item-value"><?= $APP['info']['server_count'] ?></p>
         <p class="stat-count_item-name">Сервер</p>
     </a>

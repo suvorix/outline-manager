@@ -116,6 +116,7 @@ a.button.btn-second:focus {
     background: var(--accent-color);
 }
 
+/* [START] Стили таблицы */
 .table-app {
     width: 100%;
     border: 1px solid var(--dop1-background-color);
@@ -147,7 +148,9 @@ a.button.btn-second:focus {
     text-align: left;
     font-weight: 600;
 }
+/* [END] Стили таблицы */
 
+/* [START] Стили экрана загрузки */
 .loadding_wrapper {
     position: fixed;
     top: 0;
@@ -187,7 +190,9 @@ a.button.btn-second:focus {
         transform: rotate(450deg);
     }
 }
+/* [END] Стили экрана загрузки */
 
+/* [START] Стили уведомлений */
 .notification_wrapper {
     position: fixed;
     z-index: 200;
@@ -199,7 +204,6 @@ a.button.btn-second:focus {
     grid-gap: 10px;
     padding: 10px;
 }
-
 .notification_wrapper .notification {
     background: rgba(0, 0, 0, 0.8);
     border-radius: 5px;
@@ -220,6 +224,64 @@ a.button.btn-second:focus {
 .notification_wrapper .notification.notification_info {
     border-left: 5px solid transparent;
 }
+.notification_wrapper .notification p { 
+    margin-top: 0px; 
+    margin-bottom: 10px; 
+}
+.notification_wrapper .notification p:last-child { 
+    margin-bottom: 0px; 
+}
+/* [END] Стили уведомлений */
+
+/* [START] Стили выпадающего меню */
+.menu-action_wrapper {
+    position: relative;
+}
+.menu-action_wrapper .menu-action_btn {
+    width: 25px;
+    fill: var(--main-text-color);
+    cursor: pointer;
+    padding: 10px 0px;
+    opacity: 1;
+    transition: .1s opacity;
+}
+.menu-action_wrapper .menu-action_btn:hover{
+    opacity: 1;
+}
+.menu-action_wrapper .menu-action_block{
+    position: absolute;
+    top: 40px;
+    right: 5px;
+    width: 190px;
+    display: grid;
+    background: var(--dop1-background-color);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    z-index: 5;
+}
+.menu-action_wrapper .menu-action_block a {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    color: var(--main-text-color);
+    text-decoration: none;
+}
+.menu-action_wrapper .menu-action_block a:last-child{
+    border-bottom: none;
+}
+.menu-action_wrapper .menu-action_block a:hover {
+    background: rgba(0,0,0,0.1);
+}
+.menu-action_wrapper.close .menu-action_block {
+    display: none;
+}
+.menu-action_wrapper.close .menu-action_btn {
+    opacity: 0.5;
+}
+.menu-action_wrapper.close .menu-action_btn:hover{
+    opacity: 1;
+}
+/* [END] Стили выпадающего меню */
 
 .content_position {
     width: 100%;

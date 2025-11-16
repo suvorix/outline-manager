@@ -13,26 +13,58 @@ class Server extends Model
         return $this->get('select count(1) as count from servers')[0]['count'];
     }
 
-    public function add($name, $apiUrl, $certSha256)
+    public function add($name, $apiUrl, $certSha256, $key_limit)
     {
-        $data = array(
+        return $this->insert('servers', array(
             'name' => $name,
             'apiUrl' => $apiUrl,
             'certSha256' => $certSha256,
-        );
-        return $this->insert('servers', array_keys($data), array_values($data));
+            'key_limit' => $key_limit,
+        ));
+    }
+
+    public function edit($id, $data)
+    {
+        return $this->update('servers', $data, $id);
+    }
+
+    public function del($id)
+    {
+        return $this->execute('delete from servers where id = ?', array($id));
     }
 
     public function getServers($offset = -1, $limit = -1)
     {
         $query = "select 
             id,
+            DATE_FORMAT(date_add, '%d.%m.%Y %H:%i:%s') as date_add,
             name,
             apiUrl,
             certSha256,
-            substring(apiUrl, 9, LOCATE(':', apiUrl, 7) - 9) as ip
+            substring(apiUrl, 9, LOCATE(':', apiUrl, 7) - 9) as ip,
+            status,
+            case status
+                when -1 then 'Нет связи'
+                when 0 then 'На проверке'
+                when 1 then 'Работает'
+            end as status_name,
+            key_limit
         from servers order by id desc";
         if ( $offset != -1 && $limit != -1 ) { $query .= ' limit ' . $limit . ' offset ' . $offset; }
         return $this->get($query);
+    }
+
+    public function getServer($id)
+    {
+        $query = "select 
+            id,
+            name,
+            key_limit
+        from servers where id = ?";
+        $data = $this->get($query, array($id));
+        if(count($data) > 0) {
+            return $data[0];
+        }
+        return false;
     }
 }

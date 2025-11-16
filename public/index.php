@@ -12,8 +12,13 @@ $router->add('GET', '/logout', 'AuthController@logout');
 
 // Навигация
 $router->add('GET', '/', 'PageController@dashboard');
-$router->add('GET', '/servers', 'PageController@servers');
-$router->add('GET', '/add-server', 'PageController@addServer');
-$router->add('POST', '/add-server', 'PageController@addServerForm');
+$router->group('/server', function($router){
+    $router->add('GET', '/list', 'PageController@server_list');
+    $router->add('GET', '/add', 'PageController@server_add');
+    $router->add('POST', '/add', 'PageController@server_add_form');
+    $router->add('GET', '/edit/{id}', 'PageController@server_edit');
+    $router->add('POST', '/edit', 'PageController@server_edit_form');
+    $router->add('GET', '/del/{id}', 'PageController@server_del');
+});
 
 $router->dispatch($_SERVER['REQUEST_URI']);

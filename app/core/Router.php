@@ -49,7 +49,7 @@ class Router
 
         $this->currentGroup = $previousGroup . $prefix;
 
-        call_user_func($callback, $this);
+        $callback($this);
 
         $this->currentGroup = $previousGroup;
     }
@@ -73,7 +73,9 @@ class Router
                 
                 if (class_exists($controllerClass)) {
                     $controllerInstance = new $controllerClass();
-                    return array($controllerInstance, $method);
+                    if(method_exists($controllerInstance, $method)) {
+                        return array($controllerInstance, $method);
+                    }
                 }
             }
         }
@@ -138,7 +140,7 @@ class Router
             
             if ($callback) {
                 // Вызываем обработчик с параметрами
-                call_user_func_array($callback, array_values($route['params']));
+                $this->invokeCallback($callback, $route['params']);
                 return;
             }
         }
@@ -147,10 +149,25 @@ class Router
         $this->handleNotFound();
     }
 
+    private function invokeCallback($callback, $params)
+    {
+        // Просто передаем все параметры как массив
+        // Контроллеры сами разберутся какие параметры им нужны
+        if (is_array($callback)) {
+            // Для вызова метода контроллера: [object, method]
+            $object = $callback[0];
+            $method = $callback[1];
+            $object->$method($params);
+        } else {
+            // Для обычной функции
+            $callback($params);
+        }
+    }
+
     private function handleNotFound()
     {
         if ($this->notFoundCallback) {
-            call_user_func($this->notFoundCallback);
+            ($this->notFoundCallback)();
         } else {
             http_response_code(404);
             header('Content-Type: application/json');
