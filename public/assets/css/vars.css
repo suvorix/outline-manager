@@ -7,8 +7,9 @@
     --dop-text-color: #9E9E9E;
 
     --main-background-color: #171a1a;
-    --dop1-background-color: #2F3131;
+    --dop1-background-color: #212323;
     --dop2-background-color: #D5D5D5;
+    --code-background-color: rgba(255, 255, 255, 0.1);
 
     --btn-background: var(--accent-color);
     --btn-color: var(--main-text-color);
@@ -16,5 +17,6 @@
     --btn-second-color: var(--main-background-color);
     --link-color: #5bb193;
     --error-color: #f44336;
+    --warning-color: #f49236;
     --success-color: #4caf50;
 }  

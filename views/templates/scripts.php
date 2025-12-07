@@ -5,6 +5,8 @@
     </svg>
 </div>
 
+<script src="/assets/libs/app-tooltip.js"></script>
+
 <script>
     var notification = function(settings){
         var default_settings = {

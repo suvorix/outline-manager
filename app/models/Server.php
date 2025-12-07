@@ -37,7 +37,7 @@ class Server extends Model
     {
         $query = "select 
             id,
-            DATE_FORMAT(date_add, '%d.%m.%Y %H:%i:%s') as date_add,
+            DATE_FORMAT(date_add, '%d.%m.%Y %H:%i') as date_add,
             name,
             apiUrl,
             certSha256,
