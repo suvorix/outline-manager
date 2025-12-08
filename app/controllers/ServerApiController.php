@@ -85,7 +85,7 @@ class ServerApiController
             if(is_array($info)) { 
                 $info = json_encode($info);
             }
-            $f = fopen(BASE_PATH . '/logs/ServerApiController.log', 'a');
+            $f = fopen(BASE_PATH . '/storage/logs/ServerApiController.log', 'a');
             fwrite($f, date('[Y-m-d H:i:s]') . ' FUNCTION:' . $function . ' - ' . $info . PHP_EOL);
             fclose($f);
         }
