@@ -4,7 +4,7 @@
     --accent-color: #3A745E;
 
     --main-text-color: #ebebeb;
-    --dop-text-color: #9E9E9E;
+    --dop-text-color: #686868;
 
     --main-background-color: #171a1a;
     --dop1-background-color: #212323;
@@ -19,4 +19,11 @@
     --error-color: #f44336;
     --warning-color: #f49236;
     --success-color: #4caf50;
+
+    
+    --action-menu: var(--main-text-color);
+    --action-menu-background: rgba(255, 255, 255, 0.05);
+    
+    --action-menu-red: #f44336;
+    --action-menu-red-background: rgba(244, 67, 54, 0.05);
 }  

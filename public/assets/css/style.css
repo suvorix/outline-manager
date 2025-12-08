@@ -255,6 +255,7 @@ a.button.btn-second:focus {
 /* [START] Стили выпадающего меню */
 .menu-action_wrapper {
     position: relative;
+    user-select: none;
 }
 .menu-action_wrapper .menu-action_btn {
     width: 25px;
@@ -275,21 +276,34 @@ a.button.btn-second:focus {
     display: grid;
     background: var(--dop1-background-color);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
-    border-radius: 5px;
+    border-radius: 10px;
     z-index: 5;
+    border: 1px solid rgba(255, 255, 255, 0.01);
+    padding: 5px;
 }
 .menu-action_wrapper .menu-action_block a {
     padding: 10px;
     cursor: pointer;
-    border-bottom: 1px solid rgba(0,0,0,0.2);
-    color: var(--main-text-color);
+    color: var(--action-menu);
     text-decoration: none;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    grid-gap: 10px;
+    align-items: center;
 }
-.menu-action_wrapper .menu-action_block a:last-child{
-    border-bottom: none;
+.menu-action_wrapper .menu-action_block a svg {
+    width: 100%;
+    display: inline-block;
 }
 .menu-action_wrapper .menu-action_block a:hover {
-    background: rgba(0,0,0,0.1);
+    background: var(--action-menu-background);
+}
+.menu-action_wrapper .menu-action_block a.action-red {
+    color: var(--action-menu-red);
+}
+.menu-action_wrapper .menu-action_block a.action-red:hover {
+    background: var(--action-menu-red-background);
 }
 .menu-action_wrapper.close .menu-action_block {
     display: none;
