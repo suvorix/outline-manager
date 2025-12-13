@@ -19,6 +19,16 @@ $router->group('/server', function($router){
     $router->add('GET', '/edit/{id}', 'PageController@server_edit');
     $router->add('POST', '/edit', 'PageController@server_edit_form');
     $router->add('GET', '/del/{id}', 'PageController@server_del');
+
+    $router->group('/{id}/key', function($router){
+        $router->add('GET', '/list', 'PageController@key_list');
+        $router->add('GET', '/add', 'PageController@key_add');
+    });
+});
+
+// Крон задачи
+$router->group('/cron', function($router){
+    $router->add('GET', '/check-servers', 'CronController@check_servers');
 });
 
 $router->dispatch($_SERVER['REQUEST_URI']);

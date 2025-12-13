@@ -77,6 +77,17 @@ input[type="submit"], button, a.button {
 a.button {
     text-align: center;
 }
+a.button.button-with-icon {
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    grid-gap: 10px;
+    align-items: center;
+}
+a.button.button-with-icon svg,
+a.button.button-with-icon img {
+    width: 100%;
+    margin-bottom: -3px;
+}
 a.button:hover {
     text-decoration: none;
 }

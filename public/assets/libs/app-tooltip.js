@@ -76,7 +76,7 @@ class AppTooltip {
 
     showTooltip(e) {
         const text = $(e.currentTarget).attr(this.dataTooltip);
-        this.tooltip.find('span').text(text);
+        this.tooltip.find('span').html(text);
         
         // Позиция элемента на странице 
         var element = {

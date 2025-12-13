@@ -16,6 +16,9 @@ spl_autoload_register(function ($class) {
 // Загрузка конфигурации
 require_once 'config.php';
 
+// Загрузка доп. функций
+require_once 'helpers.php';
+
 // Инициализация сессии
 if (session_status() === PHP_SESSION_NONE) {
     session_start();

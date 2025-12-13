@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Controllers\AuthController;
+use App\Controllers\ServerApiController;
 use App\Models\Server;
 
 class PageController
@@ -25,12 +26,14 @@ class PageController
         require_once BASE_PATH . '/views/templates/' . $template . '.php';
     }
 
-    private function redirect($url) {
+    private function redirect($url) 
+    {
         header('Location: ' . $url); 
         exit();
     }
 
-    private function checkAuth() {
+    private function checkAuth() 
+    {
         $authController = new AuthController();
         return $authController->checkAuth();
     }
@@ -96,6 +99,11 @@ class PageController
             }
         }
 
+        $serverApiController = new ServerApiController($serverInfo['apiUrl'], $serverInfo['certSha256']);
+        if($serverApiController->server() === NULL) { $this->redirect('/server/add?error='.urldecode('Нет связи с сервером')); }
+
+        $serverApiController->changeServer(array('name' => $serverName));
+
         $serverModel = new Server();
         $serverModel->add($serverName, $serverInfo['apiUrl'], $serverInfo['certSha256'], $serverKeyLimit);
         $this->redirect('/server/list?success='.urldecode('Сервер добавлен'));
@@ -145,5 +153,19 @@ class PageController
         $serverModel->del($params['id']);
 
         $this->redirect('/server/list?success='.urldecode('Сервер удалён'));
+    }
+    
+    public function key_list( $params )
+    {
+        if( !$this->checkAuth() ) { $this->redirect('/login'); }
+
+        echo('Форма просмотра списка ключей');
+    }
+    
+    public function key_add( $params )
+    {
+        if( !$this->checkAuth() ) { $this->redirect('/login'); }
+
+        echo('Форма добавления ключей');
     }
 }

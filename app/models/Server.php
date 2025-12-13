@@ -20,6 +20,7 @@ class Server extends Model
             'apiUrl' => $apiUrl,
             'certSha256' => $certSha256,
             'key_limit' => $key_limit,
+            'status' => 1,
         ));
     }
 
@@ -48,6 +49,7 @@ class Server extends Model
                 when 0 then 'На проверке'
                 when 1 then 'Работает'
             end as status_name,
+            TIMESTAMPDIFF(MINUTE, status_date_update, NOW()) as status_date_update_min,
             key_limit
         from servers order by id desc";
         if ( $offset != -1 && $limit != -1 ) { $query .= ' limit ' . $limit . ' offset ' . $offset; }
