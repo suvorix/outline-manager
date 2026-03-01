@@ -12,12 +12,12 @@
 
     <label>
         <p>Пароль:</p>
-        <input type="text" name="key-password" placeholder="Введите имя...">
+        <input type="text" name="key-password" placeholder="Введите пароль...">
     </label>
 
     <label>
         <p>Порт:</p>
-        <input type="text" name="key-port" placeholder="Введите имя...">
+        <input type="text" name="key-port" placeholder="Введите порт...">
     </label>
 
     <label>

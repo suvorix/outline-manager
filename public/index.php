@@ -25,7 +25,7 @@ $router->group('/server', function($router){
         $router->add('GET', '/add', 'PageController@key_add');
         $router->add('POST', '/add', 'PageController@key_add_form');
         $router->add('GET', '/edit/{key_id}', 'PageController@key_edit');
-        $router->add('POST', '/edit', 'PageController@key_edit_form');
+        $router->add('POST', '/edit/{key_id}', 'PageController@key_edit_form');
         $router->add('GET', '/del/{key_id}', 'PageController@key_del');
     });
 });
