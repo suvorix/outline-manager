@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Controllers\AuthController;
 use App\Controllers\ServerApiController;
 use App\Models\Server;
+use App\Models\ServerKey;
 
 class PageController
 {
@@ -114,12 +115,18 @@ class PageController
         if( !$this->checkAuth() ) { $this->redirect('/login'); }
         $this->pageInfo['title'] = 'Редактирование сервера | ' . $this->pageInfo['title'];
 
-        if (filter_var($params['id'], FILTER_VALIDATE_INT) === false) { $this->redirect('/server/list?error='.urldecode('Передан неправильный идентификатор сервера')); }
+        $server_id = $params['server_id'];
 
-        
+        if (filter_var($server_id, FILTER_VALIDATE_INT) === false) { $this->redirect('/server/list?error='.urldecode('Передан неправильный идентификатор сервера')); }
+
         $serverModel = new Server();
-        $this->pageInfo['server'] = $serverModel->getServer($params['id']);
-        if($this->pageInfo['server'] === false) { $this->redirect('/server/list?error='.urldecode('Сервер не найден')); }
+        $server = $serverModel->getServer($server_id);
+
+        if($server === false) {
+            $this->redirect('/server/list?error='.urldecode('Сервер не найден'));
+        }
+
+        $this->pageInfo['server'] = $server;
 
         $this->view('/server/edit');
     }
@@ -147,10 +154,12 @@ class PageController
     {
         if( !$this->checkAuth() ) { $this->redirect('/login'); }
 
-        if (filter_var($params['id'], FILTER_VALIDATE_INT) === false) { $this->redirect('/server/list?error='.urldecode('Передан неправильный идентификатор сервера')); }
+        $server_id = $params['server_id'];
+
+        if (filter_var($server_id, FILTER_VALIDATE_INT) === false) { $this->redirect('/server/list?error='.urldecode('Передан неправильный идентификатор сервера')); }
 
         $serverModel = new Server();
-        $serverModel->del($params['id']);
+        $serverModel->del($server_id);
 
         $this->redirect('/server/list?success='.urldecode('Сервер удалён'));
     }
@@ -158,14 +167,153 @@ class PageController
     public function key_list( $params )
     {
         if( !$this->checkAuth() ) { $this->redirect('/login'); }
+        $this->pageInfo['title'] = 'Список ключей | ' . $this->pageInfo['title'];
 
-        echo('Форма просмотра списка ключей');
+        $server_id = $params['server_id'];
+
+        if (filter_var($server_id, FILTER_VALIDATE_INT) === false) { $this->redirect('/?error='.urldecode('Передан неправильный идентификатор сервера')); }
+
+        $serverModel = new Server();
+        $server = $serverModel->getServer($server_id);
+
+        if($server === false) {
+            $this->redirect('/server/list?error='.urldecode('Сервер не найден'));
+        }
+
+        $this->pageInfo['server'] = $server;
+
+        $serverKeyModel = new ServerKey();
+        $this->pageInfo['keys'] = $serverKeyModel->getKeys($server['id']);
+
+        $this->view('/server/key/list');
     }
     
     public function key_add( $params )
     {
         if( !$this->checkAuth() ) { $this->redirect('/login'); }
+        $this->pageInfo['title'] = 'Добавление ключа | ' . $this->pageInfo['title'];
 
-        echo('Форма добавления ключей');
+        $server_id = $params['server_id'];
+
+        if (filter_var($server_id, FILTER_VALIDATE_INT) === false) { $this->redirect('/?error='.urldecode('Передан неправильный идентификатор сервера')); }
+
+        $serverModel = new Server();
+        $server = $serverModel->getServer($server_id);
+
+        if($server === false) {
+            $this->redirect('/server/list?error='.urldecode('Сервер не найден'));
+        }
+
+        $this->pageInfo['server'] = $server;
+
+        $serverApiController = new ServerApiController($server['apiUrl'], $server['certSha256']);
+
+        $this->pageInfo['encryptMethods'] = $serverApiController->listMethods;
+
+        $this->view('/server/key/add');
+    }
+    
+    public function key_add_form( $params )
+    {
+        if( !$this->checkAuth() ) { $this->redirect('/login'); }
+
+        $server_id = $params['server_id'];
+
+        if (filter_var($server_id, FILTER_VALIDATE_INT) === false) { $this->redirect('/?error='.urldecode('Передан неправильный идентификатор сервера')); }
+
+        // Получаем данные сервера
+        $serverModel = new Server();
+        $server = $serverModel->getServer($server_id);
+
+        if($server === false) {
+            $this->redirect('/server/list?error='.urldecode('Сервер не найден'));
+        }
+
+        $keyName = $_POST['key-name'];
+        $keyPassword = $_POST['key-password'];
+        $keyPort = $_POST['key-port'];
+        $keyMethod = $_POST['key-method'];
+        $keyDateEnd = $_POST['key-date-end'];
+
+        $keyInformation = array();
+
+        if($keyName != '') { $keyInformation['name'] = $keyName; }
+        if($keyPassword != '') { $keyInformation['password'] = $keyPassword; }
+        if($keyPort != '') { $keyInformation['port'] = $keyPort; }
+        if($keyMethod != '') { $keyInformation['method'] = $keyMethod; }
+        
+        // Создаём ключ
+        $serverApiController = new ServerApiController($server['apiUrl'], $server['certSha256']);
+        $key = json_decode($serverApiController->createAccessKey($keyInformation), true);
+        
+        // Выводим уведомление об ошибке создания ключа
+        if($key === null) {
+            $this->redirect("/server/{$server['id']}/key/add?error=".urldecode('Произошла ошибка при создании ключа'));
+        }
+
+        $addKeyInfo = array(
+            'server_id' => $server['id']
+        );
+        if($keyDateEnd != '') { $addKeyInfo['date_end'] = $keyDateEnd; }
+
+        // Сохраняем ключ в БД 
+        $serverKeyModel = new ServerKey();
+        $serverKeyModel->add($key, $addKeyInfo);
+
+        $this->redirect("/server/{$server['id']}/key/list?success=".urldecode('Ключ создан'));
+    }
+
+    public function key_edit( $params )
+    {
+        if( !$this->checkAuth() ) { $this->redirect('/login'); }
+        $this->pageInfo['title'] = 'Редактирование ключа | ' . $this->pageInfo['title'];
+
+        // $server_id = $params['server_id'];
+
+        // if (filter_var($server_id, FILTER_VALIDATE_INT) === false) { $this->redirect('/server/list?error='.urldecode('Передан неправильный идентификатор сервера')); }
+
+        // $serverModel = new Server();
+        // $server = $serverModel->getServer($server_id);
+
+        // if($server === false) {
+        //     $this->redirect('/server/list?error='.urldecode('Сервер не найден'));
+        // }
+        
+        // $this->pageInfo['server'] = $server;
+
+        // $this->view('/server/edit');
+    }
+    
+    public function key_edit_form( $params )
+    {
+        if( !$this->checkAuth() ) { $this->redirect('/login'); }
+
+        // $id = $_POST['server-id'];
+        // $name = $_POST['server-name'];
+        // $keyLimit = $_POST['server-key-limit'];
+
+        // if (filter_var($id, FILTER_VALIDATE_INT) === false) { $this->redirect('/server/edit/' . $id . '?error='.urldecode('Передан неправильный идентификатор сервера')); }
+
+        // $serverModel = new Server();
+        // $serverModel->edit($id, array(
+        //     'name' => $name,
+        //     'key_limit' => $keyLimit
+        // ));
+
+        // $this->redirect('/server/list?success='.urldecode('Сервер изменён'));
+    }
+    
+    public function key_del( $params )
+    {
+        if( !$this->checkAuth() ) { $this->redirect('/login'); }
+
+        // $server_id = $params['server_id'];
+
+        // if (filter_var($server_id, FILTER_VALIDATE_INT) === false) { $this->redirect('/server/list?error='.urldecode('Передан неправильный идентификатор сервера')); }
+
+        // $serverModel = new Server();
+        // $serverModel->del($server_id);
+
+        // $this->redirect('/server/list?success='.urldecode('Сервер удалён'));
     }
 }

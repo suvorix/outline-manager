@@ -50,19 +50,16 @@ class Server extends Model
                 when 1 then 'Работает'
             end as status_name,
             TIMESTAMPDIFF(MINUTE, status_date_update, NOW()) as status_date_update_min,
-            key_limit
-        from servers order by id desc";
+            key_limit,
+            (select count(1) from server_keys where server_id = s.id) as key_count
+        from servers s order by id desc";
         if ( $offset != -1 && $limit != -1 ) { $query .= ' limit ' . $limit . ' offset ' . $offset; }
         return $this->get($query);
     }
 
     public function getServer($id)
     {
-        $query = "select 
-            id,
-            name,
-            key_limit
-        from servers where id = ?";
+        $query = "select * from servers where id = ?";
         $data = $this->get($query, array($id));
         if(count($data) > 0) {
             return $data[0];

@@ -26,7 +26,7 @@ class AppTooltip {
                 background: #333;
                 color: #fff;
                 border-radius: 4px;
-                font-size: 14px;
+                font-size: 16px;
                 line-height: 1.4;
                 z-index: 9999;
                 box-shadow: 0 2px 5px rgba(0,0,0,0.3);

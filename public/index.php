@@ -16,13 +16,17 @@ $router->group('/server', function($router){
     $router->add('GET', '/list', 'PageController@server_list');
     $router->add('GET', '/add', 'PageController@server_add');
     $router->add('POST', '/add', 'PageController@server_add_form');
-    $router->add('GET', '/edit/{id}', 'PageController@server_edit');
+    $router->add('GET', '/edit/{server_id}', 'PageController@server_edit');
     $router->add('POST', '/edit', 'PageController@server_edit_form');
-    $router->add('GET', '/del/{id}', 'PageController@server_del');
+    $router->add('GET', '/del/{server_id}', 'PageController@server_del');
 
-    $router->group('/{id}/key', function($router){
+    $router->group('/{server_id}/key', function($router){
         $router->add('GET', '/list', 'PageController@key_list');
         $router->add('GET', '/add', 'PageController@key_add');
+        $router->add('POST', '/add', 'PageController@key_add_form');
+        $router->add('GET', '/edit/{key_id}', 'PageController@key_edit');
+        $router->add('POST', '/edit', 'PageController@key_edit_form');
+        $router->add('GET', '/del/{key_id}', 'PageController@key_del');
     });
 });
 

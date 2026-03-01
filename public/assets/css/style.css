@@ -460,3 +460,47 @@ a.button.btn-second:focus {
 .server-status.server-status--1 { background: var(--error-color); }
 .server-status.server-status-0 { background: var(--warning-color); }
 .server-status.server-status-1 { background: var(--success-color); }
+
+
+#QR_code img {
+    width: 100%;
+}
+/* Затемнение фона */
+#dialog_QR_code {
+    border: none;
+    padding: 0;
+    background: transparent;
+    max-width: 90vw;
+    max-height: 90vh;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    outline: none;
+}
+
+#dialog_QR_code[open] {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Контейнер с контентом */
+#dialog_QR_code .dialog-content {
+    background: var(--dop1-background-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 20px;
+}
+
+/* Затемнение фона при открытом диалоге */
+#dialog_QR_code::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
