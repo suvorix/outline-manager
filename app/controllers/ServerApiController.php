@@ -281,7 +281,7 @@ class ServerApiController
     // [START] Experimental
 
     // Display server metric information
-    // since: Required time range filter (e.g., "24h", "7d", "30d", or ISO timestamp)
+    // since: Required time range filter (s-second / h-hour / d-day / w-week "60s", "24h", "7d", "30w") 
     public function getMetrics( $since ) {
         $response = $this->request( 'GET', '/experimental/server/metrics?since=' . $since );
         if($response['http_code'] == 200) { return $response['response']; }

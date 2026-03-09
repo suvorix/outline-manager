@@ -10,7 +10,11 @@ class ServerKey extends Model
 
     public function count()
     {
-        return $this->get('select count(1) as count from server_keys')[0]['count'];
+        return $this->get('select 
+            count(1) as count, 
+            count(case when s.status = 1 then 1 end) as count_active 
+        from server_keys k
+        left join servers s on s.id = k.server_id')[0];
     }
 
     public function add($key, $data = array())

@@ -3,6 +3,8 @@ namespace App\Controllers;
 
 use App\Controllers\ServerApiController;
 use App\Models\Server;
+use App\Models\ServerKey;
+use App\Models\KeyStatistic;
 
 class CronController
 {
@@ -47,6 +49,54 @@ class CronController
                 $data_update['status'] = -1;
             }
             $serverModel->edit($server['id'], $data_update);
+        }
+    }
+
+    
+    public function check_metrics( $params ) 
+    {
+        echo('<pre>');
+        $serverModel = new Server();
+        $serverKeyModel = new ServerKey();
+        $keyStatisticModel = new KeyStatistic();
+
+        $servers = $serverModel->get("SELECT id, apiUrl, certSha256 FROM servers WHERE status = 1");
+
+        foreach($servers as $server) {
+            $serverApiController = new ServerApiController($server['apiUrl'], $server['certSha256']);
+            $metrics = $serverApiController->getMetrics('300s');
+            if($metrics) {
+                foreach($metrics['accessKeys'] as $metric_key) {
+                    $key = $serverKeyModel->get("select id from server_keys where server_id = ? and key_id = ?", array($server['id'], $metric_key['accessKeyId']));
+                    if(count($key) > 0){
+                        $key = $key[0]['id'];
+
+                        $dataTransferred = (int) $metric_key['dataTransferred']['bytes'];
+                        $tunnelTime = (int) $metric_key['tunnelTime']['seconds'];
+                        $lastTrafficSeen = (int) $metric_key['connection']['lastTrafficSeen'];
+                        $peakDeviceCount = (int) $metric_key['connection']['peakDeviceCount']['data'];
+
+                        if( !($dataTransferred == 0 && $tunnelTime == 0 && $lastTrafficSeen == 0 && $peakDeviceCount == 0) ) {
+                            $insert = array(
+                                'key_id' => $key,
+                            );
+                            if($dataTransferred > 0) { $insert['dataTransferred'] = $dataTransferred; }
+                            if($tunnelTime > 0) { $insert['tunnelTime'] = $tunnelTime; }
+                            if($lastTrafficSeen > 0) { $insert['lastTrafficSeen'] = date('Y-m-d H:i:s', $lastTrafficSeen); }
+                            if($peakDeviceCount > 0) { $insert['peakDeviceCount'] = $peakDeviceCount; }
+
+                            $keyStatisticModel->add($insert);
+                            var_dump(array(
+                                '$key' => $key,
+                                '$dataTransferred' => $dataTransferred,
+                                '$tunnelTime' => $tunnelTime,
+                                '$lastTrafficSeen' => $lastTrafficSeen,
+                                '$peakDeviceCount' => $peakDeviceCount,
+                            ));
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ use App\Controllers\AuthController;
 use App\Controllers\ServerApiController;
 use App\Models\Server;
 use App\Models\ServerKey;
+use App\Models\KeyStatistic;
 
 class PageController
 {
@@ -50,9 +51,17 @@ class PageController
     {
         if( !$this->checkAuth() ) { $this->redirect('/login'); }
         
-        $modelServer = new Server();
+        $serverModel = new Server();
 
-        $this->pageInfo['server_count'] = $modelServer->count();
+        $this->pageInfo['server_counts'] = $serverModel->count();
+        
+        $serverKeyModel = new ServerKey();
+
+        $this->pageInfo['key_counts'] = $serverKeyModel->count();
+
+        $keyStatisticModel = new KeyStatistic();
+
+        $this->pageInfo['key_stat'] = $keyStatisticModel->getStatistictLast5min();
 
         $this->pageInfo['title'] = 'Панель управления | ' . $this->pageInfo['title'];
         $this->view('/dashboard');
@@ -239,7 +248,7 @@ class PageController
 
         if($keyName != '') { $keyInformation['name'] = $keyName; }
         if($keyPassword != '') { $keyInformation['password'] = $keyPassword; }
-        if($keyPort != '') { $keyInformation['port'] = $keyPort; }
+        if($keyPort != 0) { $keyInformation['port'] = $keyPort; }
         if($keyMethod != '') { $keyInformation['method'] = $keyMethod; }
         
         // Создаём ключ

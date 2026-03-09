@@ -432,10 +432,14 @@ a.button.btn-second:focus {
     color: var(--main-text-color);
     padding: 20px;
     border-radius: 10px;
-    cursor: pointer;
     transition: .1s background;
+    text-decoration: none;
+    cursor: auto;
 }
-.stat-count_group .stat-count_item:hover {
+.stat-count_group .stat-count_item[href]{
+    cursor: pointer;
+}
+.stat-count_group .stat-count_item[href]:hover {
     background: var(--accent-color);
     text-decoration: none;
 }

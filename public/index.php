@@ -33,6 +33,7 @@ $router->group('/server', function($router){
 // Крон задачи
 $router->group('/cron', function($router){
     $router->add('GET', '/check-servers', 'CronController@check_servers');
+    $router->add('GET', '/check-metrics', 'CronController@check_metrics');
 });
 
 $router->dispatch($_SERVER['REQUEST_URI']);

@@ -10,7 +10,10 @@ class Server extends Model
 
     public function count()
     {
-        return $this->get('select count(1) as count from servers')[0]['count'];
+        return $this->get('select 
+            count(1) as count, 
+            count(case when status = 1 then 1 end) as count_active 
+        from servers')[0];
     }
 
     public function add($name, $apiUrl, $certSha256, $key_limit)
