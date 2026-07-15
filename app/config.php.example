@@ -1,4 +1,7 @@
 <?php
+
+date_default_timezone_set('Europe/Moscow');
+
 define('BASE_PATH', dirname(__DIR__));
 
 define('APP_PASSWORD', 'admin');            // Поменять пароль на проде
